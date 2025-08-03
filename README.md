@@ -13,6 +13,21 @@ The system should:
 
 # API 
 
+1. Shortening a URL
+
+- Client sends POST /shorten with long URL
+- Rate-limit API usage (throttle abuse)
+- Validate URLs (well-formed, avoid internal addresses)
+- Saves long URL in DB → gets unique ID
+- Converts ID to short code
+- Returns short.ly/{short_code}
+
+2. Redirecting a Short URL
+
+- Client requests GET /xYz12
+- Finds original URL by short code
+- Redirects using HTTP 301 or 302
+
 ## Endpoints
 
 - POST /shorten: Shorten URL
@@ -20,7 +35,7 @@ The system should:
 
 # Cache
 
-- GET long URL from Shorten URL.
+- list of key (Shorten URL) and value (long URL) pairs
 
 # Database
 
@@ -38,11 +53,6 @@ Table: url_mappings
 - created_at	TIMESTAMP	Time of creation
 - expiry_date	TIMESTAMP	Optional expiry for short URL
 - clicks	INT	Optional click counter
-
-# Security and Constraints
-
-- Validate URLs (well-formed, avoid internal addresses)
-- Rate-limit API usage (throttle abuse)
 
 ## References:
 
